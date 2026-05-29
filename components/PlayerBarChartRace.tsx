@@ -32,11 +32,30 @@ export default function PlayerBarChartRace({ snapshots }: Props) {
   }, [isPlaying, speed, snapshots.length]);
 
   const snapshot = snapshots[frame];
+
   // Fixed scale: use the all-time leader's final total so bar widths
   // only animate when a player actually scores, not when the scale shifts.
   const maxRuns = useMemo(
     () => snapshots[snapshots.length - 1].standings[0]?.runs ?? 1,
     [snapshots]
+  );
+
+  // All players that ever appear in any top-10, in first-seen order.
+  // Always rendered so there are no mount-triggered initial animations.
+  const allPlayers = useMemo(() => {
+    const seen = new Map<string, string>(); // player -> team
+    for (const snap of snapshots) {
+      for (const s of snap.standings) {
+        if (!seen.has(s.player)) seen.set(s.player, s.team);
+      }
+    }
+    return Array.from(seen.entries()).map(([player, team]) => ({ player, team }));
+  }, [snapshots]);
+
+  // Current frame standings for O(1) lookup
+  const standingMap = useMemo(
+    () => new Map(snapshot.standings.map((s) => [s.player, s])),
+    [snapshot]
   );
 
   return (
@@ -83,17 +102,18 @@ export default function PlayerBarChartRace({ snapshots }: Props) {
         <div style={{ width: 48, textAlign: "right", flexShrink: 0 }}>Runs</div>
       </div>
 
-      {/* Bars */}
-      <div style={{ position: "relative", height: CONTAINER_HEIGHT }}>
-        <AnimatePresence>
-          {snapshot.standings.map((standing) => (
+      {/* Bars — all ever-seen players always mounted; position/opacity drive enter/exit */}
+      <div style={{ position: "relative", height: CONTAINER_HEIGHT, overflow: "hidden" }}>
+        {allPlayers.map(({ player, team }) => {
+          const standing = standingMap.get(player) ?? { player, team, runs: 0, rank: 11 };
+          return (
             <PlayerBar
-              key={standing.player}
+              key={player}
               standing={standing}
               maxRuns={maxRuns}
             />
-          ))}
-        </AnimatePresence>
+          );
+        })}
       </div>
 
       {/* Controls */}

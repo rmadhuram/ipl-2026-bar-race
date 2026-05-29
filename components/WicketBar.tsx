@@ -7,7 +7,7 @@ import type { WicketStanding } from "@/lib/types";
 
 export const WICKET_BAR_HEIGHT = 52;
 export const WICKET_GAP = 8;
-const ENTRY_Y = 10 * (WICKET_BAR_HEIGHT + WICKET_GAP);
+const HIDDEN_Y = 10 * (WICKET_BAR_HEIGHT + WICKET_GAP);
 
 interface Props {
   standing: WicketStanding;
@@ -17,15 +17,14 @@ interface Props {
 function WicketBar({ standing, maxWickets }: Props) {
   const { player, team, wickets, economy, rank } = standing;
   const cfg = TEAM_CONFIG[team];
-  const y = (rank - 1) * (WICKET_BAR_HEIGHT + WICKET_GAP);
+  const inTop10 = rank <= 10;
+  const y = inTop10 ? (rank - 1) * (WICKET_BAR_HEIGHT + WICKET_GAP) : HIDDEN_Y;
+  const opacity = inTop10 ? 1 : 0;
   const fillPct = maxWickets > 0 ? (wickets / maxWickets) * 100 : 0;
 
   return (
     <motion.div
-      key={player}
-      initial={{ y: ENTRY_Y, opacity: 0 }}
-      animate={{ y, opacity: 1 }}
-      exit={{ y: ENTRY_Y, opacity: 0 }}
+      animate={{ y, opacity }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       style={{
         position: "absolute",

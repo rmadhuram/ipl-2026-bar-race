@@ -7,7 +7,7 @@ import type { PlayerStanding } from "@/lib/types";
 
 export const PLAYER_BAR_HEIGHT = 52;
 export const PLAYER_GAP = 8;
-const ENTRY_Y = 10 * (PLAYER_BAR_HEIGHT + PLAYER_GAP);
+const HIDDEN_Y = 10 * (PLAYER_BAR_HEIGHT + PLAYER_GAP);
 
 interface Props {
   standing: PlayerStanding;
@@ -17,15 +17,14 @@ interface Props {
 function PlayerBar({ standing, maxRuns }: Props) {
   const { player, team, runs, rank } = standing;
   const cfg = TEAM_CONFIG[team];
-  const y = (rank - 1) * (PLAYER_BAR_HEIGHT + PLAYER_GAP);
+  const inTop10 = rank <= 10;
+  const y = inTop10 ? (rank - 1) * (PLAYER_BAR_HEIGHT + PLAYER_GAP) : HIDDEN_Y;
+  const opacity = inTop10 ? 1 : 0;
   const fillPct = maxRuns > 0 ? (runs / maxRuns) * 100 : 0;
 
   return (
     <motion.div
-      key={player}
-      initial={{ y: ENTRY_Y, opacity: 0 }}
-      animate={{ y, opacity: 1 }}
-      exit={{ y: ENTRY_Y, opacity: 0 }}
+      animate={{ y, opacity }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       style={{
         position: "absolute",
