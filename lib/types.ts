@@ -14,3 +14,17 @@ export interface MatchSnapshot {
   date: string;
   standings: TeamStanding[];
 }
+
+export interface PlayerStanding {
+  player: string;
+  team: string;
+  runs: number;
+  rank: number;
+}
+
+export interface PlayerSnapshot {
+  matchNumber: number;
+  label: string;
+  date: string;
+  standings: PlayerStanding[];
+}

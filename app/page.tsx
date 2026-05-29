@@ -1,8 +1,10 @@
 import { processData } from "@/lib/processData";
-import BarChartRace from "@/components/BarChartRace";
+import { processPlayerData } from "@/lib/processPlayerData";
+import Tabs from "@/components/Tabs";
 
 export default function Home() {
-  const snapshots = processData();
+  const teamSnapshots = processData();
+  const playerSnapshots = processPlayerData();
 
   return (
     <main
@@ -22,14 +24,14 @@ export default function Home() {
             color: "#ffffff",
           }}
         >
-          IPL 2026 — Points Race
+          IPL 2026 — Season Race
         </h1>
         <p style={{ marginTop: 8, color: "#6b7280", fontSize: 14 }}>
-          Team standings after each match · sorted by points, then NRR
+          Animated standings across all 70 league matches
         </p>
       </div>
 
-      <BarChartRace snapshots={snapshots} />
+      <Tabs teamSnapshots={teamSnapshots} playerSnapshots={playerSnapshots} />
     </main>
   );
 }
