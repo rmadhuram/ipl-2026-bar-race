@@ -43,6 +43,8 @@ interface CricsheetMatch {
 
 interface TeamStats {
   pts: number;
+  wins: number;
+  losses: number;
   runsScored: number;
   ballsFaced: number;
   runsConceded: number;
@@ -79,7 +81,7 @@ export function processData(): MatchSnapshot[] {
 
   const stats: Record<string, TeamStats> = {};
   for (const team of ALL_TEAMS) {
-    stats[team] = { pts: 0, runsScored: 0, ballsFaced: 0, runsConceded: 0, ballsBowled: 0 };
+    stats[team] = { pts: 0, wins: 0, losses: 0, runsScored: 0, ballsFaced: 0, runsConceded: 0, ballsBowled: 0 };
   }
 
   const snapshots: MatchSnapshot[] = [];
@@ -97,7 +99,10 @@ export function processData(): MatchSnapshot[] {
     } else {
       // Super Over: outcome.eliminator holds the winner; normal win: outcome.winner
       const winner = outcome.winner ?? outcome.eliminator!;
+      const loser = info.teams.find((t) => t !== winner)!;
       stats[winner].pts += 2;
+      stats[winner].wins += 1;
+      stats[loser].losses += 1;
 
       // Only regular innings (index 0 and 1) count for NRR
       const inn0 = innings[0];
@@ -146,6 +151,8 @@ export function processData(): MatchSnapshot[] {
         team,
         abbrev: TEAM_CONFIG[team].abbrev,
         pts: s.pts,
+        wins: s.wins,
+        losses: s.losses,
         nrr: Math.round(nrr * 1000) / 1000,
         rank: 0,
       };

@@ -4,6 +4,8 @@ export interface TeamStanding {
   pts: number;
   nrr: number;
   rank: number;
+  wins: number;
+  losses: number;
 }
 
 export interface MatchSnapshot {

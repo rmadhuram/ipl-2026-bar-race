@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function RaceBar({ standing }: Props) {
-  const { team, pts, nrr, rank } = standing;
+  const { team, pts, nrr, rank, wins, losses } = standing;
   const cfg = TEAM_CONFIG[team];
   const y = (rank - 1) * (BAR_HEIGHT + GAP);
   const fillPct = MAX_PTS > 0 ? (pts / MAX_PTS) * 100 : 0;
@@ -115,6 +115,36 @@ export default function RaceBar({ standing }: Props) {
         }}
       >
         {pts}
+      </div>
+
+      {/* Wins */}
+      <div
+        style={{
+          width: 28,
+          textAlign: "right",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "#4ade80",
+          flexShrink: 0,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {wins}
+      </div>
+
+      {/* Losses */}
+      <div
+        style={{
+          width: 28,
+          textAlign: "right",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "#f87171",
+          flexShrink: 0,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {losses}
       </div>
 
       {/* NRR */}
