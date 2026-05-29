@@ -7,7 +7,7 @@ import type { TeamStanding } from "@/lib/types";
 const BAR_HEIGHT = 56;
 const GAP = 8;
 const MAX_PTS = 18;
-const BADGE_WIDTH = 56;
+const BADGE_WIDTH = 39;
 
 interface Props {
   standing: TeamStanding;

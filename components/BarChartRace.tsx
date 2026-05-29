@@ -73,7 +73,7 @@ export default function BarChartRace({ snapshots }: Props) {
           letterSpacing: "0.08em",
         }}
       >
-        <div style={{ width: 56, flexShrink: 0 }}>Team</div>
+        <div style={{ width: 39, flexShrink: 0 }}>Team</div>
         <div style={{ flex: 1 }}>Points progress</div>
         <div style={{ width: 36, textAlign: "right", flexShrink: 0 }}>Pts</div>
         <div style={{ width: 72, textAlign: "right", flexShrink: 0 }}>NRR</div>
