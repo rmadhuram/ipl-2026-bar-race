@@ -21,7 +21,6 @@ export default function WicketBar({ standing, maxWickets }: Props) {
 
   return (
     <motion.div
-      layout
       key={player}
       initial={{ y: ENTRY_Y, opacity: 0 }}
       animate={{ y, opacity: 1 }}

@@ -22,7 +22,6 @@ export default function RaceBar({ standing }: Props) {
 
   return (
     <motion.div
-      layout
       key={team}
       animate={{ y }}
       transition={{ duration: 0.5, ease: "easeInOut" }}

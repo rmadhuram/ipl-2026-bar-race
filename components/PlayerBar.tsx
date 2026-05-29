@@ -21,7 +21,6 @@ export default function PlayerBar({ standing, maxRuns }: Props) {
 
   return (
     <motion.div
-      layout
       key={player}
       initial={{ y: ENTRY_Y, opacity: 0 }}
       animate={{ y, opacity: 1 }}
