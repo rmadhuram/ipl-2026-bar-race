@@ -2,17 +2,19 @@
 import { useState } from "react";
 import BarChartRace from "@/components/BarChartRace";
 import PlayerBarChartRace from "@/components/PlayerBarChartRace";
-import type { MatchSnapshot, PlayerSnapshot } from "@/lib/types";
+import WicketBarChartRace from "@/components/WicketBarChartRace";
+import type { MatchSnapshot, PlayerSnapshot, WicketSnapshot } from "@/lib/types";
 
 interface Props {
   teamSnapshots: MatchSnapshot[];
   playerSnapshots: PlayerSnapshot[];
+  wicketSnapshots: WicketSnapshot[];
 }
 
-const TABS = ["Teams", "Top Run Scorers"] as const;
+const TABS = ["Teams", "Top Run Scorers", "Top Wicket Takers"] as const;
 type Tab = (typeof TABS)[number];
 
-export default function Tabs({ teamSnapshots, playerSnapshots }: Props) {
+export default function Tabs({ teamSnapshots, playerSnapshots, wicketSnapshots }: Props) {
   const [active, setActive] = useState<Tab>("Teams");
 
   return (
@@ -49,11 +51,9 @@ export default function Tabs({ teamSnapshots, playerSnapshots }: Props) {
       </div>
 
       {/* Tab content */}
-      {active === "Teams" ? (
-        <BarChartRace snapshots={teamSnapshots} />
-      ) : (
-        <PlayerBarChartRace snapshots={playerSnapshots} />
-      )}
+      {active === "Teams" && <BarChartRace snapshots={teamSnapshots} />}
+      {active === "Top Run Scorers" && <PlayerBarChartRace snapshots={playerSnapshots} />}
+      {active === "Top Wicket Takers" && <WicketBarChartRace snapshots={wicketSnapshots} />}
     </div>
   );
 }

@@ -28,3 +28,18 @@ export interface PlayerSnapshot {
   date: string;
   standings: PlayerStanding[];
 }
+
+export interface WicketStanding {
+  player: string;
+  team: string;
+  wickets: number;
+  economy: number;
+  rank: number;
+}
+
+export interface WicketSnapshot {
+  matchNumber: number;
+  label: string;
+  date: string;
+  standings: WicketStanding[];
+}

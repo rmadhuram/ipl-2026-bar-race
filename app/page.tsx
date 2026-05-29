@@ -1,10 +1,12 @@
 import { processData } from "@/lib/processData";
 import { processPlayerData } from "@/lib/processPlayerData";
+import { processWicketData } from "@/lib/processWicketData";
 import Tabs from "@/components/Tabs";
 
 export default function Home() {
   const teamSnapshots = processData();
   const playerSnapshots = processPlayerData();
+  const wicketSnapshots = processWicketData();
 
   return (
     <main
@@ -31,7 +33,11 @@ export default function Home() {
         </p>
       </div>
 
-      <Tabs teamSnapshots={teamSnapshots} playerSnapshots={playerSnapshots} />
+      <Tabs
+        teamSnapshots={teamSnapshots}
+        playerSnapshots={playerSnapshots}
+        wicketSnapshots={wicketSnapshots}
+      />
     </main>
   );
 }
