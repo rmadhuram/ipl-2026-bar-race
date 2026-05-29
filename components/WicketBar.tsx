@@ -6,6 +6,7 @@ import type { WicketStanding } from "@/lib/types";
 
 export const WICKET_BAR_HEIGHT = 52;
 export const WICKET_GAP = 8;
+const ENTRY_Y = 10 * (WICKET_BAR_HEIGHT + WICKET_GAP);
 
 interface Props {
   standing: WicketStanding;
@@ -22,7 +23,9 @@ export default function WicketBar({ standing, maxWickets }: Props) {
     <motion.div
       layout
       key={player}
-      animate={{ y }}
+      initial={{ y: ENTRY_Y, opacity: 0 }}
+      animate={{ y, opacity: 1 }}
+      exit={{ y: ENTRY_Y, opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       style={{
         position: "absolute",

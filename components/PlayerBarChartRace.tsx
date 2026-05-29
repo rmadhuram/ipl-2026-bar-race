@@ -80,13 +80,15 @@ export default function PlayerBarChartRace({ snapshots }: Props) {
 
       {/* Bars */}
       <div style={{ position: "relative", height: CONTAINER_HEIGHT }}>
-        {snapshot.standings.map((standing) => (
-          <PlayerBar
-            key={standing.player}
-            standing={standing}
-            maxRuns={maxRuns}
-          />
-        ))}
+        <AnimatePresence>
+          {snapshot.standings.map((standing) => (
+            <PlayerBar
+              key={standing.player}
+              standing={standing}
+              maxRuns={maxRuns}
+            />
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Controls */}

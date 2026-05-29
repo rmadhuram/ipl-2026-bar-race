@@ -6,6 +6,7 @@ import type { PlayerStanding } from "@/lib/types";
 
 export const PLAYER_BAR_HEIGHT = 52;
 export const PLAYER_GAP = 8;
+const ENTRY_Y = 10 * (PLAYER_BAR_HEIGHT + PLAYER_GAP);
 
 interface Props {
   standing: PlayerStanding;
@@ -22,7 +23,9 @@ export default function PlayerBar({ standing, maxRuns }: Props) {
     <motion.div
       layout
       key={player}
-      animate={{ y }}
+      initial={{ y: ENTRY_Y, opacity: 0 }}
+      animate={{ y, opacity: 1 }}
+      exit={{ y: ENTRY_Y, opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       style={{
         position: "absolute",

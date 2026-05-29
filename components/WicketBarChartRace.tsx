@@ -81,13 +81,15 @@ export default function WicketBarChartRace({ snapshots }: Props) {
 
       {/* Bars */}
       <div style={{ position: "relative", height: CONTAINER_HEIGHT }}>
-        {snapshot.standings.map((standing) => (
-          <WicketBar
-            key={standing.player}
-            standing={standing}
-            maxWickets={maxWickets}
-          />
-        ))}
+        <AnimatePresence>
+          {snapshot.standings.map((standing) => (
+            <WicketBar
+              key={standing.player}
+              standing={standing}
+              maxWickets={maxWickets}
+            />
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Controls */}
