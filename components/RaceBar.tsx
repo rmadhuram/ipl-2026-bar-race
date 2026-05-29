@@ -53,6 +53,7 @@ export default function RaceBar({ standing }: Props) {
           alt={team}
           width={BADGE_WIDTH}
           height={BADGE_WIDTH}
+          unoptimized
           style={{ objectFit: "contain", borderRadius: 4 }}
         />
       </div>
