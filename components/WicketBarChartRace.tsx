@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import WicketBar, { WICKET_BAR_HEIGHT, WICKET_GAP } from "@/components/WicketBar";
 import Controls from "@/components/Controls";
@@ -32,7 +32,10 @@ export default function WicketBarChartRace({ snapshots }: Props) {
   }, [isPlaying, speed, snapshots.length]);
 
   const snapshot = snapshots[frame];
-  const maxWickets = snapshot.standings[0]?.wickets ?? 1;
+  const maxWickets = useMemo(
+    () => snapshots[snapshots.length - 1].standings[0]?.wickets ?? 1,
+    [snapshots]
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

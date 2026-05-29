@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PlayerBar, { PLAYER_BAR_HEIGHT, PLAYER_GAP } from "@/components/PlayerBar";
 import Controls from "@/components/Controls";
@@ -32,7 +32,12 @@ export default function PlayerBarChartRace({ snapshots }: Props) {
   }, [isPlaying, speed, snapshots.length]);
 
   const snapshot = snapshots[frame];
-  const maxRuns = snapshot.standings[0]?.runs ?? 1;
+  // Fixed scale: use the all-time leader's final total so bar widths
+  // only animate when a player actually scores, not when the scale shifts.
+  const maxRuns = useMemo(
+    () => snapshots[snapshots.length - 1].standings[0]?.runs ?? 1,
+    [snapshots]
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

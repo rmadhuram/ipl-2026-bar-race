@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TEAM_CONFIG } from "@/constants/teams";
@@ -13,7 +14,7 @@ interface Props {
   maxRuns: number;
 }
 
-export default function PlayerBar({ standing, maxRuns }: Props) {
+function PlayerBar({ standing, maxRuns }: Props) {
   const { player, team, runs, rank } = standing;
   const cfg = TEAM_CONFIG[team];
   const y = (rank - 1) * (PLAYER_BAR_HEIGHT + PLAYER_GAP);
@@ -141,3 +142,10 @@ export default function PlayerBar({ standing, maxRuns }: Props) {
     </motion.div>
   );
 }
+
+export default React.memo(PlayerBar, (prev, next) =>
+  prev.standing.player === next.standing.player &&
+  prev.standing.rank === next.standing.rank &&
+  prev.standing.runs === next.standing.runs &&
+  prev.maxRuns === next.maxRuns
+);

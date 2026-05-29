@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TEAM_CONFIG } from "@/constants/teams";
@@ -13,7 +14,7 @@ interface Props {
   maxWickets: number;
 }
 
-export default function WicketBar({ standing, maxWickets }: Props) {
+function WicketBar({ standing, maxWickets }: Props) {
   const { player, team, wickets, economy, rank } = standing;
   const cfg = TEAM_CONFIG[team];
   const y = (rank - 1) * (WICKET_BAR_HEIGHT + WICKET_GAP);
@@ -156,3 +157,11 @@ export default function WicketBar({ standing, maxWickets }: Props) {
     </motion.div>
   );
 }
+
+export default React.memo(WicketBar, (prev, next) =>
+  prev.standing.player === next.standing.player &&
+  prev.standing.rank === next.standing.rank &&
+  prev.standing.wickets === next.standing.wickets &&
+  prev.standing.economy === next.standing.economy &&
+  prev.maxWickets === next.maxWickets
+);
