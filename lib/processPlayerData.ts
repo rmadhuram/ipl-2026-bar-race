@@ -46,9 +46,9 @@ export function processPlayerData(): PlayerSnapshot[] {
     (a, b) => a.info.event.match_number - b.info.event.match_number
   );
 
-  // Cumulative runs per player
   const runsMap: Record<string, number> = {};
-  // Most recent team for each player
+  const fiftiesMap: Record<string, number> = {};
+  const hundredsMap: Record<string, number> = {};
   const teamMap: Record<string, string> = {};
 
   const snapshots: PlayerSnapshot[] = [];
@@ -66,9 +66,18 @@ export function processPlayerData(): PlayerSnapshot[] {
 
     // Accumulate batter runs from regular innings only (index 0 and 1)
     for (const inn of innings.slice(0, 2)) {
+      const inningsScore: Record<string, number> = {};
       for (const over of inn.overs) {
         for (const d of over.deliveries) {
           runsMap[d.batter] = (runsMap[d.batter] ?? 0) + d.runs.batter;
+          inningsScore[d.batter] = (inningsScore[d.batter] ?? 0) + d.runs.batter;
+        }
+      }
+      for (const [player, score] of Object.entries(inningsScore)) {
+        if (score >= 100) {
+          hundredsMap[player] = (hundredsMap[player] ?? 0) + 1;
+        } else if (score >= 50) {
+          fiftiesMap[player] = (fiftiesMap[player] ?? 0) + 1;
         }
       }
     }
@@ -84,6 +93,8 @@ export function processPlayerData(): PlayerSnapshot[] {
       player: p.player,
       team: p.team,
       runs: p.runs,
+      fifties: fiftiesMap[p.player] ?? 0,
+      hundreds: hundredsMap[p.player] ?? 0,
       rank: i + 1,
     }));
 

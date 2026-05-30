@@ -19,6 +19,8 @@ export interface PlayerStanding {
   player: string;
   team: string;
   runs: number;
+  fifties: number;
+  hundreds: number;
   rank: number;
 }
 
