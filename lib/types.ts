@@ -36,6 +36,8 @@ export interface WicketStanding {
   player: string;
   team: string;
   wickets: number;
+  innings: number;
+  runsConceded: number;
   economy: number;
   rank: number;
 }

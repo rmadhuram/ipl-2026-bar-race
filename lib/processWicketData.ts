@@ -43,6 +43,7 @@ interface CricsheetMatch {
 
 interface BowlerStats {
   wickets: number;
+  innings: number;
   runsConceded: number;
   legalBalls: number;
 }
@@ -74,9 +75,10 @@ export function processWicketData(): WicketSnapshot[] {
 
     // Accumulate bowling stats from regular innings only
     for (const inn of innings.slice(0, 2)) {
+      const bowlersThisInnings = new Set<string>();
       for (const over of inn.overs) {
         for (const d of over.deliveries) {
-          const s = statsMap[d.bowler] ?? { wickets: 0, runsConceded: 0, legalBalls: 0 };
+          const s = statsMap[d.bowler] ?? { wickets: 0, innings: 0, runsConceded: 0, legalBalls: 0 };
           const ex = d.extras ?? {};
           const isWide = "wides" in ex;
           const isNoBall = "noballs" in ex;
@@ -91,7 +93,11 @@ export function processWicketData(): WicketSnapshot[] {
           }
 
           statsMap[d.bowler] = s;
+          bowlersThisInnings.add(d.bowler);
         }
+      }
+      for (const bowler of bowlersThisInnings) {
+        statsMap[bowler].innings += 1;
       }
     }
 
@@ -102,6 +108,8 @@ export function processWicketData(): WicketSnapshot[] {
         player,
         team: teamMap[player],
         wickets: s.wickets,
+        innings: s.innings,
+        runsConceded: s.runsConceded,
         economy: s.legalBalls > 0 ? (s.runsConceded / s.legalBalls) * 6 : 99,
       }))
       .filter((b) => b.wickets > 0)
@@ -113,6 +121,8 @@ export function processWicketData(): WicketSnapshot[] {
       player: b.player,
       team: b.team,
       wickets: b.wickets,
+      innings: b.innings,
+      runsConceded: b.runsConceded,
       economy: Math.round(b.economy * 100) / 100,
       rank: i + 1,
     }));

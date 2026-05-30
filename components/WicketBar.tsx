@@ -15,7 +15,7 @@ interface Props {
 }
 
 function WicketBar({ standing, maxWickets }: Props) {
-  const { player, team, wickets, economy, rank } = standing;
+  const { player, team, wickets, innings, runsConceded, economy, rank } = standing;
   const cfg = TEAM_CONFIG[team];
   const inTop10 = rank <= 10;
   const y = inTop10 ? (rank - 1) * (WICKET_BAR_HEIGHT + WICKET_GAP) : HIDDEN_Y;
@@ -124,6 +124,36 @@ function WicketBar({ standing, maxWickets }: Props) {
         </div>
       </div>
 
+      {/* Innings */}
+      <div
+        style={{
+          width: 28,
+          textAlign: "right",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "#9ca3af",
+          flexShrink: 0,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {innings}
+      </div>
+
+      {/* Runs conceded */}
+      <div
+        style={{
+          width: 44,
+          textAlign: "right",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "#9ca3af",
+          flexShrink: 0,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {runsConceded}
+      </div>
+
       {/* Wickets */}
       <div
         style={{
@@ -161,6 +191,8 @@ export default React.memo(WicketBar, (prev, next) =>
   prev.standing.player === next.standing.player &&
   prev.standing.rank === next.standing.rank &&
   prev.standing.wickets === next.standing.wickets &&
+  prev.standing.innings === next.standing.innings &&
+  prev.standing.runsConceded === next.standing.runsConceded &&
   prev.standing.economy === next.standing.economy &&
   prev.maxWickets === next.maxWickets
 );

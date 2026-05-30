@@ -97,6 +97,8 @@ export default function WicketBarChartRace({ snapshots }: Props) {
       >
         <div style={{ width: 39, flexShrink: 0 }}>Team</div>
         <div style={{ flex: 1 }}>Wickets taken</div>
+        <div style={{ width: 28, textAlign: "right", flexShrink: 0 }}>INNS</div>
+        <div style={{ width: 44, textAlign: "right", flexShrink: 0 }}>RUNS</div>
         <div style={{ width: 32, textAlign: "right", flexShrink: 0 }}>Wkts</div>
         <div style={{ width: 52, textAlign: "right", flexShrink: 0 }}>Econ</div>
       </div>
@@ -104,7 +106,7 @@ export default function WicketBarChartRace({ snapshots }: Props) {
       {/* Bars — all ever-seen players always mounted; position/opacity drive enter/exit */}
       <div style={{ position: "relative", height: CONTAINER_HEIGHT, overflow: "hidden" }}>
         {allPlayers.map(({ player, team }) => {
-          const standing = standingMap.get(player) ?? { player, team, wickets: 0, economy: 0, rank: 11 };
+          const standing = standingMap.get(player) ?? { player, team, wickets: 0, innings: 0, runsConceded: 0, economy: 0, rank: 11 };
           return (
             <WicketBar
               key={player}
