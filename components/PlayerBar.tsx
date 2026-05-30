@@ -15,7 +15,7 @@ interface Props {
 }
 
 function PlayerBar({ standing, maxRuns }: Props) {
-  const { player, team, runs, fifties, hundreds, rank } = standing;
+  const { player, team, runs, innings, fifties, hundreds, rank } = standing;
   const cfg = TEAM_CONFIG[team];
   const inTop10 = rank <= 10;
   const y = inTop10 ? (rank - 1) * (PLAYER_BAR_HEIGHT + PLAYER_GAP) : HIDDEN_Y;
@@ -124,6 +124,21 @@ function PlayerBar({ standing, maxRuns }: Props) {
         </div>
       </div>
 
+      {/* Innings */}
+      <div
+        style={{
+          width: 28,
+          textAlign: "right",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "#9ca3af",
+          flexShrink: 0,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {innings}
+      </div>
+
       {/* 50s */}
       <div
         style={{
@@ -176,6 +191,7 @@ export default React.memo(PlayerBar, (prev, next) =>
   prev.standing.player === next.standing.player &&
   prev.standing.rank === next.standing.rank &&
   prev.standing.runs === next.standing.runs &&
+  prev.standing.innings === next.standing.innings &&
   prev.standing.fifties === next.standing.fifties &&
   prev.standing.hundreds === next.standing.hundreds &&
   prev.maxRuns === next.maxRuns

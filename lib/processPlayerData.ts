@@ -47,6 +47,7 @@ export function processPlayerData(): PlayerSnapshot[] {
   );
 
   const runsMap: Record<string, number> = {};
+  const inningsMap: Record<string, number> = {};
   const fiftiesMap: Record<string, number> = {};
   const hundredsMap: Record<string, number> = {};
   const teamMap: Record<string, string> = {};
@@ -74,6 +75,7 @@ export function processPlayerData(): PlayerSnapshot[] {
         }
       }
       for (const [player, score] of Object.entries(inningsScore)) {
+        inningsMap[player] = (inningsMap[player] ?? 0) + 1;
         if (score >= 100) {
           hundredsMap[player] = (hundredsMap[player] ?? 0) + 1;
         } else if (score >= 50) {
@@ -93,6 +95,7 @@ export function processPlayerData(): PlayerSnapshot[] {
       player: p.player,
       team: p.team,
       runs: p.runs,
+      innings: inningsMap[p.player] ?? 0,
       fifties: fiftiesMap[p.player] ?? 0,
       hundreds: hundredsMap[p.player] ?? 0,
       rank: i + 1,

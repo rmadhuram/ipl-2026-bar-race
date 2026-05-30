@@ -99,15 +99,16 @@ export default function PlayerBarChartRace({ snapshots }: Props) {
       >
         <div style={{ width: 39, flexShrink: 0 }}>Team</div>
         <div style={{ flex: 1 }}>Runs scored</div>
-        <div style={{ width: 28, textAlign: "right", flexShrink: 0, color: "#fbbf24" }}>50s</div>
-        <div style={{ width: 28, textAlign: "right", flexShrink: 0, color: "#fb923c" }}>100s</div>
+        <div style={{ width: 28, textAlign: "right", flexShrink: 0 }}>INNS</div>
+        <div style={{ width: 28, textAlign: "right", flexShrink: 0, color: "#fbbf24" }}>50</div>
+        <div style={{ width: 28, textAlign: "right", flexShrink: 0, color: "#fb923c" }}>100</div>
         <div style={{ width: 48, textAlign: "right", flexShrink: 0 }}>Runs</div>
       </div>
 
       {/* Bars — all ever-seen players always mounted; position/opacity drive enter/exit */}
       <div style={{ position: "relative", height: CONTAINER_HEIGHT, overflow: "hidden" }}>
         {allPlayers.map(({ player, team }) => {
-          const standing = standingMap.get(player) ?? { player, team, runs: 0, fifties: 0, hundreds: 0, rank: 11 };
+          const standing = standingMap.get(player) ?? { player, team, runs: 0, innings: 0, fifties: 0, hundreds: 0, rank: 11 };
           return (
             <PlayerBar
               key={player}
