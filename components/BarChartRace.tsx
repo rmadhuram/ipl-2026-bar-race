@@ -1,8 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import RaceBar, { BAR_HEIGHT, GAP } from "@/components/RaceBar";
 import Controls from "@/components/Controls";
+import PositionStatsTable from "@/components/PositionStatsTable";
+import { computePositionStats } from "@/lib/positionStats";
 import type { MatchSnapshot } from "@/lib/types";
 
 const SPEEDS: Record<1 | 2 | 4, number> = { 1: 1200, 2: 700, 4: 350 };
@@ -16,6 +18,7 @@ export default function BarChartRace({ snapshots }: Props) {
   const [frame, setFrame] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState<1 | 2 | 4>(1);
+  const positionStats = useMemo(() => computePositionStats(snapshots), [snapshots]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -109,6 +112,8 @@ export default function BarChartRace({ snapshots }: Props) {
           setIsPlaying(false);
         }}
       />
+
+      <PositionStatsTable stats={positionStats} />
     </div>
   );
 }

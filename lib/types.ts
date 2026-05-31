@@ -6,6 +6,7 @@ export interface TeamStanding {
   rank: number;
   wins: number;
   losses: number;
+  matchesPlayed: number;
 }
 
 export interface MatchSnapshot {

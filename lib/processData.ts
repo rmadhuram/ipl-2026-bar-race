@@ -45,6 +45,7 @@ interface TeamStats {
   pts: number;
   wins: number;
   losses: number;
+  matchesPlayed: number;
   runsScored: number;
   ballsFaced: number;
   runsConceded: number;
@@ -81,7 +82,7 @@ export function processData(): MatchSnapshot[] {
 
   const stats: Record<string, TeamStats> = {};
   for (const team of ALL_TEAMS) {
-    stats[team] = { pts: 0, wins: 0, losses: 0, runsScored: 0, ballsFaced: 0, runsConceded: 0, ballsBowled: 0 };
+    stats[team] = { pts: 0, wins: 0, losses: 0, matchesPlayed: 0, runsScored: 0, ballsFaced: 0, runsConceded: 0, ballsBowled: 0 };
   }
 
   const snapshots: MatchSnapshot[] = [];
@@ -92,6 +93,9 @@ export function processData(): MatchSnapshot[] {
     const [teamA, teamB] = info.teams;
     const matchNumber = info.event.match_number;
     const date = info.dates[0];
+
+    stats[teamA].matchesPlayed += 1;
+    stats[teamB].matchesPlayed += 1;
 
     if (outcome.result === "no result") {
       stats[teamA].pts += 1;
@@ -153,6 +157,7 @@ export function processData(): MatchSnapshot[] {
         pts: s.pts,
         wins: s.wins,
         losses: s.losses,
+        matchesPlayed: s.matchesPlayed,
         nrr: Math.round(nrr * 1000) / 1000,
         rank: 0,
       };
